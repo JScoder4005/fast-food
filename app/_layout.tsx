@@ -18,7 +18,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     } else {
       SplashScreen.preventAutoHideAsync();
-    } 
+    }
   }, [fontsLoaded, error]);
-  return <Stack screenOptions={{headerShown: false}}/>;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
