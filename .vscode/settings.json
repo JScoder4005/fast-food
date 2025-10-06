@@ -4,5 +4,6 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "workbench.settings.useSplitJSON": false
+  "workbench.settings.useSplitJSON": false,
+  "cSpell.words": ["Custombutton"]
 }
