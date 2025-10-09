@@ -15,7 +15,7 @@ const SignUp = () => {
     setIsSubmitting(true);
     try {
       //Call Appwrite Sign Up function here
-      Alert.alert("Success", "Signed In Successfully");
+      Alert.alert("Success", "Signed Up Successfully");
       router.replace("/");
     } catch (error: unknown) {
       console.log(error);
