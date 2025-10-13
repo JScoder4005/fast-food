@@ -36,7 +36,7 @@ export const createUser = async ({
   try {
     const newAccount = await account.create(ID.unique(), email, password, name);
     if (!newAccount) throw Error;
-    await signIn({ email, password });
+    // await signIn({ email, password });
 
     const avatarUrl = avatars.getInitialsURL(name);
 
@@ -53,6 +53,7 @@ export const createUser = async ({
       }
     );
   } catch (error) {
+    console.log("Session already active — skipping sign-in");
     throw new Error(error as string);
   }
 };
