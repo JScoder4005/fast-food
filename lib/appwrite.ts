@@ -13,7 +13,12 @@ export const appwriteConfig = {
   Platform: "com.muk.foodordering",
   projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
   databaseId: "68e3f385002faba85bbf",
+  bucketId: "68f279a60009225822b2",
   userCollectionId: "user",
+  categoriesCollectionId: "categories",
+  menuCollectionId: "menu",
+  customizationsCollectionId: "customizations",
+  menuCustomizationCollectionId: "menu_customizations",
 };
 
 export const client = new Client();
