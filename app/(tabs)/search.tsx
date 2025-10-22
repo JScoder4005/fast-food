@@ -1,19 +1,22 @@
-import seed from "@/lib/seed";
+import { getMenu } from "@/lib/appwrite";
+import useAppwrite from "@/lib/useAppwrite";
 import React from "react";
-import { Button, Text } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Search = () => {
+  const { data, refetch, loading } = useAppwrite({
+    fn: getMenu,
+    params: {
+      category: "",
+      query: "",
+      limit: 8,
+    },
+  });
+  console.log(data);
   return (
     <SafeAreaView>
       <Text>Search</Text>
-
-      <Button
-        title="Seed"
-        onPress={() =>
-          seed().catch((error) => console.log("Failed to seed database", error))
-        }
-      />
     </SafeAreaView>
   );
 };

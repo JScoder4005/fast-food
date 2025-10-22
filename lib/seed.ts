@@ -333,7 +333,10 @@ async function seed(): Promise<void> {
           uploadedImage = await uploadImageToStorage(item.image_url);
           console.log(`Successfully uploaded image for ${item.name}`);
         } catch (imageError: any) {
-          console.warn(`Failed to upload image for ${item.name}:`, imageError.message);
+          console.warn(
+            `Failed to upload image for ${item.name}:`,
+            imageError.message
+          );
           // Use a fallback image URL or skip the item
           uploadedImage = item.image_url; // For now, use the original URL
         }
@@ -350,8 +353,11 @@ async function seed(): Promise<void> {
           categories: categoryMap[item.category_name], // Field name must match Appwrite schema
         };
 
-        console.log(`Creating menu item with data:`, JSON.stringify(menuItemData, null, 2));
-        
+        console.log(
+          `Creating menu item with data:`,
+          JSON.stringify(menuItemData, null, 2)
+        );
+
         const doc = await databases.createDocument(
           appwriteConfig.databaseId,
           appwriteConfig.menuCollectionId,
@@ -360,13 +366,17 @@ async function seed(): Promise<void> {
         );
 
         menuMap[item.name] = doc.$id;
-        console.log(`Successfully created menu item: ${item.name} with ID: ${doc.$id}`);
+        console.log(
+          `Successfully created menu item: ${item.name} with ID: ${doc.$id}`
+        );
 
         // 5. Create menu_customizations
         console.log(`Creating customizations for: ${item.name}`);
         for (const cusName of item.customizations) {
           if (!customizationMap[cusName]) {
-            console.warn(`Warning: Customization "${cusName}" not found in map, skipping...`);
+            console.warn(
+              `Warning: Customization "${cusName}" not found in map, skipping...`
+            );
             continue;
           }
 
@@ -376,8 +386,8 @@ async function seed(): Promise<void> {
               appwriteConfig.menuCustomizationCollectionId,
               ID.unique(),
               {
-                menu: doc.$id,           // Make sure these field names match
-                customizations: customizationMap[cusName] // your Appwrite schema
+                menu: doc.$id, // Make sure these field names match
+                customizations: customizationMap[cusName], // your Appwrite schema
               }
             );
             console.log(`Added customization ${cusName} to ${item.name}`);
@@ -393,7 +403,9 @@ async function seed(): Promise<void> {
         console.error(
           `Failed to process menu item ${item.name}:`,
           error.message,
-          error.response ? JSON.stringify(error.response, null, 2) : 'No response details'
+          error.response
+            ? JSON.stringify(error.response, null, 2)
+            : "No response details"
         );
         // Continue with other menu items instead of throwing
         console.log(`Continuing with remaining menu items...`);
@@ -401,9 +413,9 @@ async function seed(): Promise<void> {
     }
 
     if (Object.keys(menuMap).length === 0) {
-      throw new Error('Failed to create any menu items');
+      throw new Error("Failed to create any menu items");
     }
-    
+
     console.log(`✅ Created ${Object.keys(menuMap).length} menu items`);
 
     console.log("✅ Database seeding completed successfully!");
