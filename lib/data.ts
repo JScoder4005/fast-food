@@ -9,15 +9,15 @@ const dummyData = {
   ],
 
   customizations: [
-    // Toppings
-    { name: "Extra Cheese", price: 25, type: "topping" },
-    { name: "Jalapeños", price: 20, type: "topping" },
-    { name: "Onions", price: 10, type: "topping" },
-    { name: "Olives", price: 15, type: "topping" },
-    { name: "Mushrooms", price: 18, type: "topping" },
-    { name: "Tomatoes", price: 10, type: "topping" },
-    { name: "Bacon", price: 30, type: "topping" },
-    { name: "Avocado", price: 35, type: "topping" },
+    // Toppings (note: "toping" is the correct spelling according to the schema)
+    { name: "Extra Cheese", price: 25, type: "toping" },
+    { name: "Jalapeños", price: 20, type: "toping" },
+    { name: "Onions", price: 10, type: "toping" },
+    { name: "Olives", price: 15, type: "toping" },
+    { name: "Mushrooms", price: 18, type: "toping" },
+    { name: "Tomatoes", price: 10, type: "toping" },
+    { name: "Bacon", price: 30, type: "toping" },
+    { name: "Avocado", price: 35, type: "toping" },
 
     // Sides
     { name: "Coke", price: 30, type: "side" },
