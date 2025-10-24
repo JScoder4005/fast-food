@@ -1,7 +1,8 @@
 import { Category } from "@/types";
+import cn from "clsx";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { FlatList, Platform, Text, TouchableOpacity } from "react-native";
 
 const Filter = ({ categories }: { categories: Category[] }) => {
   console.log("categories", categories);
@@ -10,10 +11,43 @@ const Filter = ({ categories }: { categories: Category[] }) => {
   const [active, setActive] = useState(searchParams.category || "");
 
   const handlePress = (id: string) => {};
+
+  const filterData: (Category | { $id: string; name: string })[] = categories
+    ? [{ $id: "all", name: "All" }, ...categories]
+    : [{ $id: "all", name: "All" }];
+
+  console.log("filterData", filterData);
   return (
-    <View>
-      <Text>Filter</Text>
-    </View>
+    <FlatList
+      data={filterData}
+      keyExtractor={(item) => item.$id}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          key={item.$id}
+          className={cn(
+            "filter",
+            active === item.$id ? "bg-amber-500" : "bg-white"
+          )}
+          style={
+            Platform.OS === "android"
+              ? { elevation: 5, shadowColor: "#878787" }
+              : {}
+          }
+          onPress={() => handlePress(item.$id)}
+        >
+          <Text
+            className={cn(
+              "body-medium",
+              active === item.$id ? "text-white" : "text-gray-200"
+            )}
+          >
+            {item.name}
+          </Text>
+        </TouchableOpacity>
+      )}
+    />
   );
 };
 
