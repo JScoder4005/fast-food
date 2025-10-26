@@ -7,8 +7,7 @@
 //     extend: {},
 //   },
 //   plugins: [],
-// }     
-
+// }
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -42,5 +41,6 @@ module.exports = {
       },
     },
   },
+  darkMode: "class",
   plugins: [],
 };
