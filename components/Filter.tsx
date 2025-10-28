@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { FlatList, Platform, Text, TouchableOpacity } from "react-native";
 
 const Filter = ({ categories }: { categories: Category[] }) => {
-  console.log("categories", categories);
+  // console.log("categories", categories);
 
   const searchParams = useLocalSearchParams();
   const [active, setActive] = useState(searchParams.category || "");
