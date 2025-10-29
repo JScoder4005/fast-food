@@ -1,3 +1,4 @@
+import CartItem from "@/components/cartItem";
 import CustomButton from "@/components/customButton";
 import CustomHeader from "@/components/CustomHeader";
 import { useCartStore } from "@/store/cart.store";
@@ -32,7 +33,7 @@ const Cart = () => {
     <SafeAreaView className="bg-white h-full ">
       <FlatList
         data={items}
-        renderItem={({ item }) => <Text>Cart Item</Text>}
+        renderItem={({ item }) => <CartItem item={item} />}
         keyExtractor={(item) => item.id}
         contentContainerClassName="pb-28 px-5 pt-5"
         ListHeaderComponent={() => <CustomHeader title="Your Cart" />}
