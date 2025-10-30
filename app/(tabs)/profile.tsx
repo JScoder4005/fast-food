@@ -91,6 +91,17 @@ const Profile = () => {
           </View>
         </View>
 
+        <TouchableOpacity className="bg-stone-600 mt-10 custom-btn rounded-full">
+          <View className="flex-row flex-center">
+            <Image
+              source={images.pencil}
+              className="size-5 mr-2"
+              resizeMode="contain"
+            />
+            <Text className="text-white paragraph-semibold">Edit Profile</Text>
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity
           className="custom-btn bg-primary mt-10"
           onPress={onLogout}
