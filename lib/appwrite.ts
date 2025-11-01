@@ -125,3 +125,70 @@ export const getCategories = async () => {
     throw new Error(e as string);
   }
 };
+
+export interface UploadAvatarParams {
+  file: {
+    uri: string;
+    name: string;
+    type: string;
+  };
+}
+
+export const uploadAvatar = async ({ file }: UploadAvatarParams) => {
+  try {
+    const fileId = ID.unique();
+
+    // For local files, we need to read the file to get its size
+    // In React Native, we can use fetch for local URIs
+    let fileSize = 0;
+    try {
+      const response = await fetch(file.uri);
+      const blob = await response.blob();
+      fileSize = blob.size;
+    } catch {
+      // If fetch fails, use a default size (Appwrite may handle this)
+      fileSize = 0;
+    }
+
+    const fileObject = {
+      name: file.name,
+      type: file.type,
+      size: fileSize,
+      uri: file.uri,
+    };
+
+    await storage.createFile(appwriteConfig.bucketId, fileId, fileObject);
+
+    const avatarUrl = storage.getFileViewURL(appwriteConfig.bucketId, fileId);
+    return avatarUrl.toString();
+  } catch (error) {
+    console.log("uploadAvatar error", error);
+    throw new Error(error as string);
+  }
+};
+
+export interface UpdateUserAvatarParams {
+  userId: string;
+  avatarUrl: string;
+}
+
+export const updateUserAvatar = async ({
+  userId,
+  avatarUrl,
+}: UpdateUserAvatarParams) => {
+  try {
+    const updatedUser = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        avator: avatarUrl,
+      }
+    );
+
+    return updatedUser;
+  } catch (error) {
+    console.log("updateUserAvatar error", error);
+    throw new Error(error as string);
+  }
+};

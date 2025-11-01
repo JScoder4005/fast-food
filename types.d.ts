@@ -105,3 +105,16 @@ interface GetMenuParams {
   category: string;
   query: string;
 }
+
+interface UploadAvatarParams {
+  file: {
+    uri: string;
+    name: string;
+    type: string;
+  };
+}
+
+interface UpdateUserAvatarParams {
+  userId: string;
+  avatarUrl: string;
+}

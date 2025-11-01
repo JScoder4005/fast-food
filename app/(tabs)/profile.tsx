@@ -1,9 +1,11 @@
 import { images } from "@/constants";
-import { account } from "@/lib/appwrite";
+import { account, updateUserAvatar, uploadAvatar } from "@/lib/appwrite";
 import useAuthStore from "@/store/auth.store";
+import * as ImagePicker from "expo-image-picker";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Image,
   ScrollView,
   Text,
@@ -18,6 +20,7 @@ const Profile = () => {
   const setUser = useAuthStore((s) => s.setUser);
 
   const [loggingOut, setLoggingOut] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   // Fetching user centrally in Tabs layout to avoid tab remount/resets
 
@@ -27,6 +30,73 @@ const Profile = () => {
     const url = maybeAvatar.avatar || maybeAvatar.avator;
     return url ? { uri: url } : images.avatar;
   }, [user]);
+
+  const pickImage = async () => {
+    try {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (status !== "granted") {
+        Alert.alert(
+          "Permission Required",
+          "We need permission to access your photo library to change your avatar."
+        );
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets[0]) {
+        await uploadAndUpdateAvatar(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log("pickImage error", error);
+      Alert.alert("Error", "Failed to pick image. Please try again.");
+    }
+  };
+
+  const uploadAndUpdateAvatar = async (imageUri: string) => {
+    if (!user?.$id) {
+      Alert.alert("Error", "User not found. Please try logging in again.");
+      return;
+    }
+
+    try {
+      setUploadingAvatar(true);
+
+      const fileName = imageUri.split("/").pop() || `avatar-${Date.now()}.jpg`;
+      const match = /\.(\w+)$/.exec(fileName);
+      const type = match ? `image/${match[1]}` : "image/jpeg";
+
+      const file = {
+        uri: imageUri,
+        name: fileName,
+        type,
+      };
+
+      const avatarUrl = await uploadAvatar({ file });
+      console.log("Avatar uploaded, URL:", avatarUrl);
+
+      const updatedUser = await updateUserAvatar({
+        userId: user.$id,
+        avatarUrl,
+      });
+      console.log("Avatar updated in database:", updatedUser);
+
+      setUser(updatedUser as unknown as typeof user);
+      Alert.alert("Success", "Avatar updated successfully!");
+    } catch (error) {
+      console.log("uploadAndUpdateAvatar error", error);
+      Alert.alert("Error", "Failed to update avatar. Please try again.");
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
 
   const onLogout = async () => {
     try {
@@ -48,11 +118,30 @@ const Profile = () => {
     >
       <View className="px-5 pt-6 mt-14">
         <View className="items-center">
-          <Image
-            source={avatarSource}
-            className="size-24 rounded-full"
-            resizeMode="cover"
-          />
+          <View className="relative">
+            <Image
+              source={avatarSource}
+              className="size-24 rounded-full"
+              resizeMode="cover"
+            />
+            {uploadingAvatar && (
+              <View className="absolute inset-0 items-center justify-center bg-black/50 rounded-full">
+                <ActivityIndicator size="small" color="white" />
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={pickImage}
+              disabled={uploadingAvatar || isLoading}
+              className="absolute bottom-0 right-0 bg-primary rounded-full p-2 border-2 border-white"
+            >
+              <Image
+                source={images.pencil}
+                className="size-4"
+                resizeMode="contain"
+                tintColor="white"
+              />
+            </TouchableOpacity>
+          </View>
           <Text className="h3-semibold text-dark-100 mt-4">
             {user?.name ?? "Guest"}
           </Text>
