@@ -1,6 +1,8 @@
 import { images } from "@/constants";
 import { account, updateUserAvatar, uploadAvatar } from "@/lib/appwrite";
 import useAuthStore from "@/store/auth.store";
+import EditProfile from "@/components/EditProfile";
+import { ProfileFormData } from "@/lib/validation";
 import * as ImagePicker from "expo-image-picker";
 import React, { useMemo, useState } from "react";
 import {
@@ -21,6 +23,7 @@ const Profile = () => {
 
   const [loggingOut, setLoggingOut] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   // Fetching user centrally in Tabs layout to avoid tab remount/resets
 
@@ -111,6 +114,33 @@ const Profile = () => {
     }
   };
 
+  // Prepare initial data for EditProfile component
+  const editProfileInitialData: ProfileFormData = useMemo(() => {
+    return {
+      name: user?.name ?? "",
+      email: user?.email ?? "",
+    };
+  }, [user]);
+
+  const handleEditProfileSuccess = () => {
+    setIsEditingProfile(false);
+  };
+
+  const handleCancelEditProfile = () => {
+    setIsEditingProfile(false);
+  };
+
+  // Show EditProfile component when editing
+  if (isEditingProfile) {
+    return (
+      <EditProfile
+        initialData={editProfileInitialData}
+        onSuccess={handleEditProfileSuccess}
+        onCancel={handleCancelEditProfile}
+      />
+    );
+  }
+
   return (
     <ScrollView
       className="flex-1 bg-white-100"
@@ -180,7 +210,11 @@ const Profile = () => {
           </View>
         </View>
 
-        <TouchableOpacity className="bg-stone-600 mt-10 custom-btn rounded-full">
+        <TouchableOpacity
+          className="bg-stone-600 mt-10 custom-btn rounded-full"
+          onPress={() => setIsEditingProfile(true)}
+          disabled={isLoading}
+        >
           <View className="flex-row flex-center">
             <Image
               source={images.pencil}

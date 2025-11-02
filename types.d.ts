@@ -118,3 +118,22 @@ interface UpdateUserAvatarParams {
   userId: string;
   avatarUrl: string;
 }
+
+interface UpdateUserParams {
+  userId: string;
+  name: string;
+  email: string;
+  accountId?: string;
+}
+
+interface ProfileFormData {
+  name: string;
+  email: string;
+}
+
+interface EditProfileProps {
+  initialData: ProfileFormData;
+  onSave: (data: ProfileFormData) => Promise<void>;
+  onCancel?: () => void;
+  isLoading?: boolean;
+}

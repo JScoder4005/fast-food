@@ -192,3 +192,50 @@ export const updateUserAvatar = async ({
     throw new Error(error as string);
   }
 };
+
+export interface UpdateUserParams {
+  userId: string;
+  name: string;
+  email: string;
+  accountId?: string;
+}
+
+/**
+ * Updates user profile information in both Appwrite Account and Database
+ * @param params - User update parameters
+ * @returns Updated user document
+ */
+export const updateUser = async ({
+  userId,
+  name,
+  email,
+  accountId,
+}: UpdateUserParams) => {
+  try {
+    // Update Appwrite Account if accountId is provided
+    if (accountId) {
+      try {
+        await account.updateName(name);
+      } catch (error) {
+        console.log("updateName error (account)", error);
+        // Continue even if account update fails
+      }
+    }
+
+    // Update database document
+    const updatedUser = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId,
+      {
+        name,
+        email,
+      }
+    );
+
+    return updatedUser;
+  } catch (error) {
+    console.log("updateUser error", error);
+    throw new Error(error as string);
+  }
+};
