@@ -239,3 +239,25 @@ export const updateUser = async ({
     throw new Error(error as string);
   }
 };
+
+export interface UpdatePasswordParams {
+  oldPassword: string;
+  newPassword: string;
+}
+
+/**
+ * Updates user password in Appwrite Account
+ * Requires old password for security
+ * @param params - Password update parameters
+ */
+export const updatePassword = async ({
+  oldPassword,
+  newPassword,
+}: UpdatePasswordParams) => {
+  try {
+    await account.updatePassword(newPassword, oldPassword);
+  } catch (error) {
+    console.log("updatePassword error", error);
+    throw new Error(error as string);
+  }
+};

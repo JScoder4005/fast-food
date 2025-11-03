@@ -104,3 +104,76 @@ export const validateField = (
 export const parseProfileForm = (data: unknown): ProfileFormData => {
   return profileFormSchema.parse(data);
 };
+
+/**
+ * Zod schema for password change form
+ * Validates old password, new password, and confirmation
+ */
+export const changePasswordSchema = z
+  .object({
+    oldPassword: z.string().min(1, "Current password is required"),
+    newPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      ),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })
+  .refine((data) => data.oldPassword !== data.newPassword, {
+    message: "New password must be different from current password",
+    path: ["newPassword"],
+  });
+
+/**
+ * Type inferred from Zod schema for password change form
+ */
+export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
+/**
+ * Validates password change form data using Zod schema
+ * @param data - Password change form data to validate
+ * @returns ValidationResult with isValid flag and errors object
+ */
+export const validateChangePasswordForm = (
+  data: ChangePasswordFormData
+): ValidationResult => {
+  const result = changePasswordSchema.safeParse(data);
+
+  if (result.success) {
+    return {
+      isValid: true,
+      errors: {},
+    };
+  }
+
+  // Transform Zod errors into a flat errors object
+  const errors: Record<string, string> = {};
+  result.error.errors.forEach((error) => {
+    const path = error.path[0] as string;
+    if (path && !errors[path]) {
+      errors[path] = error.message;
+    }
+  });
+
+  return {
+    isValid: false,
+    errors,
+  };
+};
+
+/**
+ * Parse and validate password change form data
+ * @param data - Raw form data to parse
+ * @returns Parsed and validated data if valid, throws ZodError if invalid
+ */
+export const parseChangePasswordForm = (
+  data: unknown
+): ChangePasswordFormData => {
+  return changePasswordSchema.parse(data);
+};

@@ -1,8 +1,9 @@
+import ChangePassword from "@/components/ChangePassword";
+import EditProfile from "@/components/EditProfile";
 import { images } from "@/constants";
 import { account, updateUserAvatar, uploadAvatar } from "@/lib/appwrite";
-import useAuthStore from "@/store/auth.store";
-import EditProfile from "@/components/EditProfile";
 import { ProfileFormData } from "@/lib/validation";
+import useAuthStore from "@/store/auth.store";
 import * as ImagePicker from "expo-image-picker";
 import React, { useMemo, useState } from "react";
 import {
@@ -24,6 +25,7 @@ const Profile = () => {
   const [loggingOut, setLoggingOut] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   // Fetching user centrally in Tabs layout to avoid tab remount/resets
 
@@ -130,6 +132,24 @@ const Profile = () => {
     setIsEditingProfile(false);
   };
 
+  const handleChangePasswordSuccess = () => {
+    setIsChangingPassword(false);
+  };
+
+  const handleCancelChangePassword = () => {
+    setIsChangingPassword(false);
+  };
+
+  // Show ChangePassword component when changing password
+  if (isChangingPassword) {
+    return (
+      <ChangePassword
+        onSuccess={handleChangePasswordSuccess}
+        onCancel={handleCancelChangePassword}
+      />
+    );
+  }
+
   // Show EditProfile component when editing
   if (isEditingProfile) {
     return (
@@ -222,6 +242,23 @@ const Profile = () => {
               resizeMode="contain"
             />
             <Text className="text-white paragraph-semibold">Edit Profile</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="bg-blue-600 mt-4 custom-btn rounded-full"
+          onPress={() => setIsChangingPassword(true)}
+          disabled={isLoading}
+        >
+          <View className="flex-row flex-center">
+            <Image
+              source={images.user}
+              className="size-5 mr-2"
+              resizeMode="contain"
+            />
+            <Text className="text-white paragraph-semibold">
+              Change Password
+            </Text>
           </View>
         </TouchableOpacity>
 

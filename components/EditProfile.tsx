@@ -55,9 +55,14 @@ const EditProfile: React.FC<EditProfileProps> = ({
       className="flex-1 bg-white-100"
       contentContainerStyle={{ paddingBottom: 40 }}
     >
-      <View className="px-5 pt-6">
-        <View className="gap-6">
+      <View className="px-5 pt-6 mt-14">
+        <View className="gap-6 mt-10">
           {/* Name Input */}
+          <View>
+            <Text className="paragraph-semibold text-dark-100 border-b border-gray-200 pb-2">
+              lets edit the profile here
+            </Text>
+          </View>
           <View>
             <CustomInput
               placeholder="Enter your full name"
@@ -87,8 +92,8 @@ const EditProfile: React.FC<EditProfileProps> = ({
 
           {/* Info Message */}
           {!hasChanges && (
-            <View className="bg-gray-100 rounded-lg p-4">
-              <Text className="text-gray-200 base-regular">
+            <View className="bg-white-100 rounded-lg p-4">
+              <Text className="text-red-600 base-regular">
                 No changes made yet. Edit the fields above to update your
                 profile.
               </Text>
@@ -118,7 +123,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 title="Cancel"
                 onPress={handleCancel}
                 style="bg-gray-300"
-                textStyle="text-dark-100"
+                textStyle="text-blue-500"
                 isLoading={false}
               />
             )}
