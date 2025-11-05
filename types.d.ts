@@ -49,6 +49,17 @@ export interface CartStore {
   getTotalPrice: () => number;
 }
 
+export interface FavoritesAndRatingsStore {
+  favoriteIds: string[];
+  userRatings: Record<string, number>;
+
+  toggleFavorite: (id: string) => void;
+  isFavorite: (id: string) => boolean;
+  setRating: (id: string, rating: number) => void;
+  getMyRating: (id: string) => number;
+  clearAll: () => void;
+}
+
 interface TabBarIconProps {
   focused: boolean;
   icon: ImageSourcePropType;

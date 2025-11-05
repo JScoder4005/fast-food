@@ -71,6 +71,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="favorites"
+        options={{
+          title: "Favorites",
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon title="Favorites" focused={focused} icon={images.star} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="cart"
         options={{
           title: "Cart",
