@@ -22,6 +22,7 @@ const Search = () => {
     params: { category, query, limit: 6 },
   });
   const { data: categories } = useAppwrite({ fn: getCategories });
+  console.log(data);
 
   useEffect(() => {
     refetch({ category, query, limit: 6 });
