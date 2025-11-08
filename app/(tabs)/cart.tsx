@@ -68,7 +68,12 @@ const Cart = () => {
                 />
               </View>
 
-              <CustomButton title="Order Now" />
+              <CustomButton
+                title="Order Now"
+                onPress={() => {
+                  console.log("Order Now");
+                }}
+              />
             </View>
           )
         }
