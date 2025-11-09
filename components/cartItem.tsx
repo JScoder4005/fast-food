@@ -6,6 +6,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const CartItem = ({ item }: { item: CartItemType }) => {
   const { increaseQty, decreaseQty, removeItem } = useCartStore();
+  console.log("data", item);
 
   return (
     <View className="cart-item">
