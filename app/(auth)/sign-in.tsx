@@ -21,11 +21,12 @@ const SignIn = () => {
     setIsSubmitting(true);
     try {
       await signIn({ email, password });
+    
       await fetchAuthenticatedUser();
       Alert.alert("Success", "Signed In Successfully");
       router.replace("/");
     } catch (error: unknown) {
-      console.log(error);
+      console.error(error);
       Alert.alert("Error", "Something went wrong, please try again.");
       Sentry.captureEvent(event);
       setIsSubmitting(false);
