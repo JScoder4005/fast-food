@@ -32,6 +32,10 @@ module.exports = {
         error: "#F14141",
         success: "#2F9B65",
       },
+      backgroundColor: {
+        light: "#ffffff",
+        dark: "#0F1117",
+      },
       fontFamily: {
         quicksand: ["Quicksand-Regular", "sans-serif"],
         "quicksand-bold": ["Quicksand-Bold", "sans-serif"],

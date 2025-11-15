@@ -33,7 +33,9 @@ const Filter = ({ categories }: { categories: Category[] }) => {
           key={item.$id}
           className={cn(
             "filter",
-            active === item.$id ? "bg-amber-500" : "bg-white"
+            active === item.$id
+              ? "bg-amber-500"
+              : "bg-white dark:bg-dark-100"
           )}
           style={
             Platform.OS === "android"
@@ -45,7 +47,9 @@ const Filter = ({ categories }: { categories: Category[] }) => {
           <Text
             className={cn(
               "body-medium",
-              active === item.$id ? "text-white" : "text-gray-200"
+              active === item.$id
+                ? "text-white"
+                : "text-gray-200 dark:text-gray-100"
             )}
           >
             {item.name}

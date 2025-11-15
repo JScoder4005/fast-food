@@ -51,12 +51,14 @@ const MenuCard = ({
         resizeMode="contain"
       />
       <Text
-        className="text-center base-bold text-dark-100 mb-2"
+        className="text-center base-bold text-dark-100 dark:text-white mb-2"
         numberOfLines={1}
       >
         {name}
       </Text>
-      <Text className="body-regular text-gray-200 mb-2">From ${price}</Text>
+      <Text className="body-regular text-gray-200 dark:text-gray-100 mb-2">
+        From ${price}
+      </Text>
 
       {/* Rating row */}
       <View className="flex-row items-center justify-center mb-3">

@@ -29,7 +29,7 @@ const Search = () => {
   }, [category, query]);
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="bg-white dark:bg-dark-100 h-full">
       <FlatList
         data={data}
         renderItem={({ item, index }) => {
@@ -58,7 +58,7 @@ const Search = () => {
                   Search
                 </Text>
                 <View className="flex-start flex-row gap-x-1 mt-0.5">
-                  <Text className="paragraph-semibold text-dark-100">
+                  <Text className="paragraph-semibold text-dark-100 dark:text-white">
                     Find your favorite food
                   </Text>
                 </View>
@@ -72,7 +72,11 @@ const Search = () => {
             <Filter categories={categories!} />
           </View>
         )}
-        ListEmptyComponent={() => !loading && <Text>No results</Text>}
+        ListEmptyComponent={() =>
+          !loading && (
+            <Text className="text-dark-100 dark:text-white">No results</Text>
+          )
+        }
       />
     </SafeAreaView>
   );

@@ -16,7 +16,7 @@ import "../global.css";
 
 export default function Index() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-dark-100">
       {/* FlatList for offers */}
       <FlatList
         data={offers}
@@ -70,7 +70,9 @@ export default function Index() {
             <View>
               <Text className="small-bold text-primary">DELIVER TO</Text>
               <TouchableOpacity className="flex-row items-center mt-0.5 space-x-1">
-                <Text className="paragraph-bold text-dark-100">India</Text>
+                <Text className="paragraph-bold text-dark-100 dark:text-white">
+                  India
+                </Text>
                 <Image
                   source={images.arrowDown}
                   className="w-3 h-3"

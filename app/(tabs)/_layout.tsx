@@ -1,31 +1,44 @@
 import { images } from "@/constants";
 import useAuthStore from "@/store/auth.store";
+import useThemeStore from "@/store/theme.store";
 import { TabBarIconProps } from "@/types";
 import cn from "clsx";
 import { Redirect, Tabs } from "expo-router";
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-const TabBarIcon = ({ focused, icon, title }: TabBarIconProps) => (
-  <View className="tab-icon">
-    <Image
-      source={icon}
-      className="size-7"
-      resizeMode="contain"
-      tintColor={focused ? "#FE8C00" : "#5D5F6D"}
-    />
-    <Text
-      className={cn(
-        "text-sm font-bold",
-        focused ? "text-primary" : "text-gray-200"
-      )}
-    >
-      {title}
-    </Text>
-  </View>
-);
+const TabBarIcon = ({ focused, icon, title }: TabBarIconProps) => {
+  const { theme } = useThemeStore();
+  const isDark = theme === "dark";
+  
+  return (
+    <View className="tab-icon">
+      <Image
+        source={icon}
+        className="size-7"
+        resizeMode="contain"
+        tintColor={focused ? "#FE8C00" : isDark ? "#9CA3AF" : "#5D5F6D"}
+      />
+      <Text
+        className={cn(
+          "text-sm font-bold",
+          focused
+            ? "text-primary"
+            : isDark
+            ? "text-gray-100"
+            : "text-gray-200"
+        )}
+      >
+        {title}
+      </Text>
+    </View>
+  );
+};
+
 export default function TabLayout() {
   const { isAuthenticated } = useAuthStore();
+  const { theme } = useThemeStore();
+  const isDark = theme === "dark";
   // const isAuthenticated = false;
 
   if (!isAuthenticated) return <Redirect href="/sign-in" />;
@@ -43,7 +56,7 @@ export default function TabLayout() {
           height: 80,
           position: "absolute",
           bottom: 40,
-          backgroundColor: "white",
+          backgroundColor: isDark ? "#181C2E" : "#ffffff",
           shadowColor: "#1a1a1a",
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.1,

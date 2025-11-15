@@ -1,3 +1,4 @@
+import ThemeProvider from "@/components/ThemeProvider";
 import useAuthStore from "@/store/auth.store";
 import * as Sentry from "@sentry/react-native";
 import { useFonts } from "expo-font";
@@ -51,5 +52,9 @@ export default Sentry.wrap(function RootLayout() {
   }, []);
 
   if (!fontsLoaded || isLoading) return null;
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <ThemeProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </ThemeProvider>
+  );
 });

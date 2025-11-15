@@ -23,7 +23,7 @@ const Favorites = () => {
   );
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="bg-white dark:bg-dark-100 h-full">
       <FlatList
         data={favorites as MenuItem[]}
         renderItem={({ item, index }) => {
@@ -49,7 +49,7 @@ const Favorites = () => {
               <Text className="small-bold uppercase text-primary">
                 Favorites
               </Text>
-              <Text className="paragraph-semibold text-dark-100 mt-0.5">
+              <Text className="paragraph-semibold text-dark-100 dark:text-white mt-0.5">
                 Your saved items
               </Text>
             </View>
@@ -59,7 +59,7 @@ const Favorites = () => {
         ListEmptyComponent={() =>
           !loading && (
             <View className="items-center mt-20">
-              <Text className="body-medium text-gray-200">
+              <Text className="body-medium text-gray-200 dark:text-gray-100">
                 No favorites yet
               </Text>
             </View>

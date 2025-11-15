@@ -32,7 +32,7 @@ const SearchBar = () => {
         value={query}
         onChangeText={handleSearch}
         onSubmitEditing={handleSubmit}
-        placeholderTextColor="A0A0A0"
+        placeholderTextColor="#A0A0A0"
         returnKeyType="search"
       />
       <TouchableOpacity

@@ -1,5 +1,6 @@
 import ChangePassword from "@/components/ChangePassword";
 import EditProfile from "@/components/EditProfile";
+import ThemeToggle from "@/components/ThemeToggle";
 import { images } from "@/constants";
 import { account, updateUserAvatar, uploadAvatar } from "@/lib/appwrite";
 import { ProfileFormData } from "@/lib/validation";
@@ -163,7 +164,7 @@ const Profile = () => {
 
   return (
     <ScrollView
-      className="flex-1 bg-white-100"
+      className="flex-1 bg-white-100 dark:bg-dark-100"
       contentContainerStyle={{ paddingBottom: 120 }}
     >
       <View className="px-5 pt-6 mt-14">
@@ -192,39 +193,45 @@ const Profile = () => {
               />
             </TouchableOpacity>
           </View>
-          <Text className="h3-semibold text-dark-100 mt-4">
+          <Text className="h3-semibold text-dark-100 dark:text-white mt-4">
             {user?.name ?? "Guest"}
           </Text>
-          <Text className="paragraph-medium text-gray-200 mt-1">
+          <Text className="paragraph-medium text-gray-200 dark:text-gray-100 mt-1">
             {user?.email ?? "No email"}
           </Text>
         </View>
 
         <View className="mt-8 gap-4">
-          <View className="flex-row items-center justify-between bg-white rounded-2xl px-4 py-4 shadow-sm">
+          <ThemeToggle />
+
+          <View className="flex-row items-center justify-between bg-white dark:bg-dark-100 rounded-2xl px-4 py-4 shadow-sm">
             <View className="flex-row items-center gap-3">
               <Image
                 source={images.user}
                 className="size-5"
                 resizeMode="contain"
               />
-              <Text className="base-medium text-dark-100">Name</Text>
+              <Text className="base-medium text-dark-100 dark:text-white">
+                Name
+              </Text>
             </View>
-            <Text className="base-semibold text-gray-200">
+            <Text className="base-semibold text-gray-200 dark:text-gray-100">
               {user?.name ?? "-"}
             </Text>
           </View>
 
-          <View className="flex-row items-center justify-between bg-white rounded-2xl px-4 py-4 shadow-sm">
+          <View className="flex-row items-center justify-between bg-white dark:bg-dark-100 rounded-2xl px-4 py-4 shadow-sm">
             <View className="flex-row items-center gap-3">
               <Image
                 source={images.envelope}
                 className="size-5"
                 resizeMode="contain"
               />
-              <Text className="base-medium text-dark-100">Email</Text>
+              <Text className="base-medium text-dark-100 dark:text-white">
+                Email
+              </Text>
             </View>
-            <Text className="base-semibold text-gray-200">
+            <Text className="base-semibold text-gray-200 dark:text-gray-100">
               {user?.email ?? "-"}
             </Text>
           </View>

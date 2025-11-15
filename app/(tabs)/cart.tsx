@@ -15,10 +15,17 @@ const PaymentInfoStripe = ({
   valueStyle,
 }: PaymentInfoStripeProps) => (
   <View className="flex-between flex-row my-1">
-    <Text className={cn("paragraph-medium text-gray-200", labelStyle)}>
+    <Text
+      className={cn(
+        "paragraph-medium text-gray-200 dark:text-gray-100",
+        labelStyle
+      )}
+    >
       {label}
     </Text>
-    <Text className={cn("paragraph-bold text-dark-100", valueStyle)}>
+    <Text
+      className={cn("paragraph-bold text-dark-100 dark:text-white", valueStyle)}
+    >
       {value}
     </Text>
   </View>
@@ -30,7 +37,7 @@ const Cart = () => {
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
   return (
-    <SafeAreaView className="bg-white h-full ">
+    <SafeAreaView className="bg-white dark:bg-dark-100 h-full">
       <FlatList
         data={items}
         renderItem={({ item }) => <CartItem item={item} />}
@@ -39,14 +46,16 @@ const Cart = () => {
         ListHeaderComponent={() => <CustomHeader title="Your Cart" />}
         ListEmptyComponent={() => (
           <View className="items-center justify-center mt-20">
-            <Text className="body-medium text-gray-200">Cart Empty</Text>
+            <Text className="body-medium text-gray-200 dark:text-gray-100">
+              Cart Empty
+            </Text>
           </View>
         )}
         ListFooterComponent={() =>
           totalItems > 0 && (
             <View className="gap-5">
-              <View className="mt-6 border border-gray-200 p-5 rounded-2xl">
-                <Text className="h-3-bold text-dark-100 mb-5">
+              <View className="mt-6 border border-gray-200 dark:border-gray-100 p-5 rounded-2xl bg-white dark:bg-dark-100">
+                <Text className="h-3-bold text-dark-100 dark:text-white mb-5">
                   Payment summary
                 </Text>
                 <PaymentInfoStripe
@@ -59,12 +68,12 @@ const Cart = () => {
                   value={`- $0.50`}
                   valueStyle="!text-success"
                 />
-                <View className="border-t border-gray-300 my-2" />
+                <View className="border-t border-gray-300 dark:border-gray-100 my-2" />
                 <PaymentInfoStripe
                   label={`Total`}
                   value={`$${(totalPrice + 5 - 0.5).toFixed(2)}`}
-                  labelStyle="base-bold !text-dark-100"
-                  valueStyle="base-bold !text-dark-100 !text-right"
+                  labelStyle="base-bold !text-dark-100 dark:!text-white"
+                  valueStyle="base-bold !text-dark-100 dark:!text-white !text-right"
                 />
               </View>
 
